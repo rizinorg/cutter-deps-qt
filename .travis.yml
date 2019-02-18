@@ -3,3 +3,11 @@ language: c
 dist: xenial
 
 script: ./build-linux.sh
+
+deploy:
+  provider: releases
+  api_key:
+    secure: vdkIwW72lFxoBmoBgNa9hLnKRrTUORce7yDjRS929B4qaePB4VQ7iZdsZEhPIaNVtX0bwgvIvEfnLpWHnvNGImM2fNJR8meTGBdi9/oObbFoQu2/hGv0dku9pNeXcl1DIT5vC/o3K9Cst1BoD5is9ZdoCR9mla0EGieAQ+dXOiexqfhrmWDMJlM8Mbb03TG5RRQ40a7wxXGoqYH9F7Ibmh+4h9jVPpNqgFw21OuZutYXldac2lMFdTrELKbbstSvQXHPSTUjkD1eTqwkGJiSEbszCEIb4d+X1fX47PL4TUNLuO6iUxFPTs4pgk5/8cJ/20Acq8XZsSI1UH46yAoWv8YGNIYvw0ibR3buKKEyXdcS/Kg18pVGpRSl/cbFl8VWxrWLTYc2NLI3CkKr8zxoeWToSpmitnHYksxaBGifBJHW+KEu8RbAJxB7JfF6aL4i21t6yPU3a9+iCGQ67cwemceZ7br7GU00Me/fDLBDS28tJNEpKy47Q1GwQoeaDXtbQIBQLHHYZBb7FfVebR+xLwVtc2JN1rtSGxFQY+nghfFttoc1plM/qEYdo+nhNoifAtHZiYgZHHgqf+HIPYzzVheykw+fbY6uiVBs4Yo3uIJjb3w7sbwyYKReYIHREpCKNc+2NRzQyUQTRHJyIhva9817GfXBQKLFhg2ih7Mkz0w=
+  file: cutter-deps-qt.tar.gz
+  on:
+    tags: true
