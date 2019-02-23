@@ -36,9 +36,10 @@ build_qt() {
 	../configure \
 		-prefix "`pwd`/../../qt" \
 		-opensource -confirm-license \
-		-debug \
+		-release \
 		-no-opengl \
 		-no-feature-cups \
+		-no-feature-icu \
 		-no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-psql -no-sql-sqlite2 -no-sql-sqlite -no-sql-tds \
 		-nomake tests -nomake examples \
 		-skip qtwebengine \
