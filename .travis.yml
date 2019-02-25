@@ -2,6 +2,14 @@
 language: c
 dist: xenial
 
+addons:
+  apt:
+    update: true
+    packages:
+    - libxcb1-dev
+    - libxkbcommon-dev
+    - libgtk-3-dev
+
 script: ./build-linux.sh
 
 deploy:

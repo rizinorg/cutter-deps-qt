@@ -37,6 +37,10 @@ build_qt() {
 		-prefix "`pwd`/../../qt" \
 		-opensource -confirm-license \
 		-release \
+		-xcb \
+		-gtk \
+		-qt-libpng \
+		-qt-libjpeg \
 		-no-opengl \
 		-no-feature-cups \
 		-no-feature-icu \
