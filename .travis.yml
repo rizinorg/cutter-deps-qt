@@ -10,7 +10,7 @@ addons:
     - libxkbcommon-dev
     - libgtk-3-dev
 
-script: ./build-linux.sh
+script: make
 
 deploy:
   skip_cleanup: true
