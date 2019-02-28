@@ -3,15 +3,18 @@ ROOT_DIR=${CURDIR}
 
 PLATFORMS_SUPPORTED=win linux macos
 ifeq (${OS},Windows_NT)
-	PLATFORM:=win
+  PLATFORM:=win
 else
-	UNAME_S=${shell uname -s}
-	ifeq (${UNAME_S},Linux)
-		PLATFORM:=linux
-	endif
-	ifeq (${UNAME_S},Darwin)
-		PLATFORM:=macos
-	endif
+  UNAME_S=${shell uname -s}
+  ifeq (${UNAME_S},Linux)
+    PLATFORM:=linux
+  endif
+  ifeq (${UNAME_S},Darwin)
+    PLATFORM:=macos
+  endif
+endif
+ifeq ($(filter ${PLATFORM},${PLATFORMS_SUPPORTED}),)
+  ${error Platform not detected or unsupported.}
 endif
 
 QT_SRC_FILE=qt-everywhere-src-5.12.1.tar.xz
@@ -20,6 +23,13 @@ QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.1/single/qt-eve
 QT_SRC_DIR=qt-everywhere-src-5.12.1
 QT_BUILD_DIR=${QT_SRC_DIR}/build
 QT_PREFIX=${ROOT_DIR}/qt
+
+ifeq (${PLATFORM},linux)
+PLATFORM_QT_OPTIONS=-xcb -gtk
+endif
+ifeq (${PLATFORM},macos)
+PLATFORM_QT_OPTIONS=
+endif
 
 BUILD_THREADS:=4
 
@@ -35,9 +45,25 @@ distclean: distclean-qt
 
 # Download Targets
 
+ifeq (${PLATFORM},linux)
+define check_md5
+	echo "$2 $1" | md5sum -c -
+endef
+endif
+ifeq (${PLATFORM},macos)
+define check_md5
+	if [ "`md5 -r \"$1\"`" != "$2 $1" ]; then \
+		echo "MD5 mismatch for file $1"; \
+		exit 1; \
+	else \
+		echo "$1 OK"; \
+	fi
+endef
+endif
+
 define download_extract
 	curl -L "$1" -o "$2"
-	echo "$3 $2" | md5sum -c -
+	${call check_md5,$2,$3}
 	tar -xf "$2"
 endef
 
@@ -49,6 +75,8 @@ ${QT_SRC_DIR}:
 	@echo ""
 	$(call download_extract,${QT_SRC_URL},${QT_SRC_FILE},${QT_SRC_MD5})
 
+.PHONY: src
+src: ${QT_SRC_DIR}
 
 qt: ${QT_SRC_DIR}
 	@echo ""
@@ -63,8 +91,6 @@ qt: ${QT_SRC_DIR}
 			-prefix "${QT_PREFIX}" \
 			-opensource -confirm-license \
 			-release \
-			-xcb \
-			-gtk \
 			-qt-libpng \
 			-qt-libjpeg \
 			-no-opengl \
@@ -105,7 +131,8 @@ qt: ${QT_SRC_DIR}
 			-skip qtvirtualkeyboard \
 			-skip qtwebglplugin \
 			-skip qtwebsockets \
-			-skip qtwebview
+			-skip qtwebview \
+			${PLATFORM_QT_OPTIONS}
 
 	cd "${QT_BUILD_DIR}" && make -j${BUILD_THREADS} > /dev/null
 	cd "${QT_BUILD_DIR}" && make install > /dev/null
