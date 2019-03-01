@@ -30,10 +30,13 @@ endif
 ifeq (${PLATFORM},macos)
 PLATFORM_QT_OPTIONS=
 endif
+ifeq (${PLATFORM},win)
+PLATFORM_QT_OPTIONS=-platform win32-msvc
+endif
 
 BUILD_THREADS:=4
 
-PACKAGE_FILE=cutter-deps-${PLATFORM}.tar.gz
+PACKAGE_FILE=cutter-deps-qt-${PLATFORM}.tar.gz
 
 all: qt pkg
 
@@ -45,26 +48,35 @@ distclean: distclean-qt
 
 # Download Targets
 
-ifeq (${PLATFORM},linux)
-define check_md5
-	echo "$2 $1" | md5sum -c -
-endef
-endif
 ifeq (${PLATFORM},macos)
-define check_md5
+  define check_md5
 	if [ "`md5 -r \"$1\"`" != "$2 $1" ]; then \
 		echo "MD5 mismatch for file $1"; \
 		exit 1; \
 	else \
 		echo "$1 OK"; \
 	fi
-endef
+  endef
+else
+  define check_md5
+	echo "$2 $1" | md5sum -c -
+  endef
+endif
+
+ifeq (${PLATFORM},win)
+  define extract
+	7z x "$1" -so | 7z x -aoa -si -ttar
+  endef
+else
+  define extract
+	tar -xf "$1"
+  endef
 endif
 
 define download_extract
 	curl -L "$1" -o "$2"
 	${call check_md5,$2,$3}
-	tar -xf "$2"
+	$(call extract,$2)
 endef
 
 ${QT_SRC_DIR}:
