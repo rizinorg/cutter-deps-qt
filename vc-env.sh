@@ -27,11 +27,14 @@ else
     # vswhere not available probe some known locations for the file
     echo No vswhere probing known paths for vcvarsall
 
-    MS_ENVSCRIPT="/c/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Auxiliary/Build/vcvarsall.bat"
+    MS_ENVSCRIPT="/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Auxiliary/Build/vcvarsall.bat"
     if [ ! -e "${MS_ENVSCRIPT}" ]; then
-        MS_ENVSCRIPT="/c/Program Files (x86)/Microsoft Visual Studio/2017/Professional/VC/Auxiliary/Build/vcvarsall.bat"
+        MS_ENVSCRIPT="/c/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Auxiliary/Build/vcvarsall.bat"
         if [ ! -e "${MS_ENVSCRIPT}" ]; then
-            MS_ENVSCRIPT="/c/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/Build/vcvarsall.bat"
+            MS_ENVSCRIPT="/c/Program Files (x86)/Microsoft Visual Studio/2017/Professional/VC/Auxiliary/Build/vcvarsall.bat"
+            if [ ! -e "${MS_ENVSCRIPT}" ]; then
+                MS_ENVSCRIPT="/c/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/Build/vcvarsall.bat"
+            fi
         fi
     fi
 fi
