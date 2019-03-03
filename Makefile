@@ -32,13 +32,16 @@ QT_BUILD_DIR=${QT_SRC_DIR}/build
 QT_PREFIX=${ROOT_DIR}/qt
 
 ifeq (${PLATFORM},linux)
+PLATFORM_QT_CONFIGURE=configure
 PLATFORM_QT_OPTIONS=-xcb -gtk
 endif
 ifeq (${PLATFORM},macos)
+PLATFORM_QT_CONFIGURE=configure
 PLATFORM_QT_OPTIONS=
 endif
 ifeq (${PLATFORM},win)
-PLATFORM_QT_OPTIONS=-platform win32-msvc
+PLATFORM_QT_CONFIGURE=configure.bat
+PLATFORM_QT_OPTIONS=
 endif
 
 BUILD_THREADS:=4
@@ -106,7 +109,7 @@ qt: ${QT_SRC_DIR}
 
 	mkdir -p "${QT_BUILD_DIR}"
 	cd "${QT_BUILD_DIR}" && \
-		../configure \
+		../${PLATFORM_QT_CONFIGURE} \
 			-prefix "${QT_PREFIX}" \
 			-opensource -confirm-license \
 			-release \
@@ -153,8 +156,13 @@ qt: ${QT_SRC_DIR}
 			-skip qtwebview \
 			${PLATFORM_QT_OPTIONS}
 
+ifeq (${PLATFORM},win)
+	cd "${QT_BUILD_DIR}" && nmake
+	cd "${QT_BUILD_DIR}" && nmake install
+else
 	cd "${QT_BUILD_DIR}" && make -j${BUILD_THREADS} > /dev/null
 	cd "${QT_BUILD_DIR}" && make install > /dev/null
+endif
 
 .PHONY: clean-qt
 clean-qt:
@@ -174,6 +182,4 @@ pkg: ${PACKAGE_FILE}
 .PHONY: distclean-pkg
 distclean-pkg:
 	rm -f "${PACKAGE_FILE}"
-
-
 
