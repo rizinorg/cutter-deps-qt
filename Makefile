@@ -17,9 +17,16 @@ ifeq ($(filter ${PLATFORM},${PLATFORMS_SUPPORTED}),)
   ${error Platform not detected or unsupported.}
 endif
 
+ifeq (${PLATFORM},win)
+QT_SRC_FILE=qt-everywhere-src-5.12.1.zip
+QT_SRC_MD5=4649d4e51ca836fbde08565582353140
+QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.1/single/qt-everywhere-src-5.12.1.zip
+else
 QT_SRC_FILE=qt-everywhere-src-5.12.1.tar.xz
 QT_SRC_MD5=6a37466c8c40e87d4a19c3f286ec2542
 QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.1/single/qt-everywhere-src-5.12.1.tar.xz
+endif
+
 QT_SRC_DIR=qt-everywhere-src-5.12.1
 QT_BUILD_DIR=${QT_SRC_DIR}/build
 QT_PREFIX=${ROOT_DIR}/qt
@@ -65,7 +72,7 @@ endif
 
 ifeq (${PLATFORM},win)
   define extract
-	7z x "$1" -so | 7z x -aoa -si -ttar
+	7z x "$1" -bsp1
   endef
 else
   define extract
