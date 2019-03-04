@@ -41,7 +41,7 @@ PLATFORM_QT_OPTIONS=
 endif
 ifeq (${PLATFORM},win)
 PLATFORM_QT_CONFIGURE=configure.bat
-PLATFORM_QT_OPTIONS=
+PLATFORM_QT_OPTIONS=-skip qtwayland -skip qtmacextras -skip qtx11extras
 endif
 
 BUILD_THREADS:=4
@@ -75,7 +75,37 @@ endif
 
 ifeq (${PLATFORM},win)
   define extract
-	7z x "$1" -bsp1
+	7z x "$1" -bsp1 \
+		-x'!'${QT_SRC_DIR}/qtwebengine \
+		-x'!'${QT_SRC_DIR}/qt3d \
+		-x'!'${QT_SRC_DIR}/qtcanvas3d \
+		-x'!'${QT_SRC_DIR}/qtcharts \
+		-x'!'${QT_SRC_DIR}/qtconnectivity \
+		-x'!'${QT_SRC_DIR}/qtdeclarative \
+		-x'!'${QT_SRC_DIR}/qtdoc \
+		-x'!'${QT_SRC_DIR}/qtscript \
+		-x'!'${QT_SRC_DIR}/qtdatavis3d \
+		-x'!'${QT_SRC_DIR}/qtgamepad \
+		-x'!'${QT_SRC_DIR}/qtlocation \
+		-x'!'${QT_SRC_DIR}/qtgraphicaleffects \
+		-x'!'${QT_SRC_DIR}/qtmultimedia \
+		-x'!'${QT_SRC_DIR}/qtpurchasing \
+		-x'!'${QT_SRC_DIR}/qtscxml \
+		-x'!'${QT_SRC_DIR}/qtsensors \
+		-x'!'${QT_SRC_DIR}/qtserialbus \
+		-x'!'${QT_SRC_DIR}/qtserialport \
+		-x'!'${QT_SRC_DIR}/qtspeech \
+		-x'!'${QT_SRC_DIR}/qttools \
+		-x'!'${QT_SRC_DIR}/qttranslations \
+		-x'!'${QT_SRC_DIR}/qtvirtualkeyboard \
+		-x'!'${QT_SRC_DIR}/qtwebglplugin \
+		-x'!'${QT_SRC_DIR}/qtwebsockets \
+		-x'!'${QT_SRC_DIR}/qtwebview \
+		-x'!'${QT_SRC_DIR}/qtmacextras \
+		-x'!'${QT_SRC_DIR}/qtwayland \
+		-x'!'${QT_SRC_DIR}/qtquickcontrols \
+		-x'!'${QT_SRC_DIR}/qtquickcontrols2 \
+		-x'!'${QT_SRC_DIR}/qtx11extras
   endef
 else
   define extract
@@ -154,6 +184,8 @@ qt: ${QT_SRC_DIR}
 			-skip qtwebglplugin \
 			-skip qtwebsockets \
 			-skip qtwebview \
+			-skip qtquickcontrols \
+			-skip qtquickcontrols2 \
 			${PLATFORM_QT_OPTIONS}
 
 ifeq (${PLATFORM},win)
