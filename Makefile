@@ -164,6 +164,15 @@ else
 	cd "${QT_BUILD_DIR}" && make install > /dev/null
 endif
 
+ifeq (${PLATFORM},macos)
+	cd "${QT_PREFIX}/include" && \
+	for header_dir in ../lib/*.framework/Headers; do \
+		module="$${header_dir%.framework/Headers}"; \
+		module="$${module#../lib/}"; \
+		ln -s "$$header_dir" "$$module"; \
+	done
+endif
+
 .PHONY: clean-qt
 clean-qt:
 	rm -f "${QT_SRC_FILE}"
