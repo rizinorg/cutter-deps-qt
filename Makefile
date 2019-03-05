@@ -95,7 +95,6 @@ ifeq (${PLATFORM},win)
 		-x'!'${QT_SRC_DIR}/qtserialbus \
 		-x'!'${QT_SRC_DIR}/qtserialport \
 		-x'!'${QT_SRC_DIR}/qtspeech \
-		-x'!'${QT_SRC_DIR}/qttools \
 		-x'!'${QT_SRC_DIR}/qttranslations \
 		-x'!'${QT_SRC_DIR}/qtvirtualkeyboard \
 		-x'!'${QT_SRC_DIR}/qtwebglplugin \
@@ -178,7 +177,6 @@ qt: ${QT_SRC_DIR}
 			-skip qtserialbus \
 			-skip qtserialport \
 			-skip qtspeech \
-			-skip qttools \
 			-skip qttranslations \
 			-skip qtvirtualkeyboard \
 			-skip qtwebglplugin \
