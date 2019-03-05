@@ -31,7 +31,7 @@ install:
 
 script: 
 - echo "PATH=$PATH"
-- travis_wait 50 make
+- make
 
 deploy:
   skip_cleanup: true
