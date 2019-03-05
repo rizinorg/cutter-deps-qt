@@ -1,6 +1,8 @@
 
-language: c
+language: cxx
 dist: xenial
+
+cache: ccache
 
 matrix:
   include:
@@ -12,6 +14,9 @@ matrix:
     env: DEPLOY_FILE=cutter-deps-qt-windows.zip
 
 addons:
+  homebrew:
+    packages:
+    - ccache
   apt:
     update: true
     packages:
@@ -20,12 +25,13 @@ addons:
     - libgtk-3-dev
 
 install:
+- if [ "$TRAVIS_OS_NAME" == "macos" ]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi # for ccache
 - if [ "$TRAVIS_OS_NAME" == "windows" ]; then choco install -y make visualstudio2017-workload-vctools; fi
 - if [ "$TRAVIS_OS_NAME" == "windows" ]; then source vc-env.sh; fi
 
 script: 
 - echo "PATH=$PATH"
-- make
+- travis_wait 50 make
 
 deploy:
   skip_cleanup: true
