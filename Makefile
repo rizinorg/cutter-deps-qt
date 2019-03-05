@@ -143,7 +143,7 @@ ${QT_SRC_DIR}:
 	@echo "#########################"
 	@echo ""
 	$(call download_extract,${QT_SRC_URL},${QT_SRC_FILE},${QT_SRC_MD5})
-	cp patch/qttools-src.pro "${QT_SRC_DIR}/qttools/src/src.pro"
+	#cp patch/qttools-src.pro "${QT_SRC_DIR}/qttools/src/src.pro"
 
 .PHONY: src
 src: ${QT_SRC_DIR}
@@ -177,6 +177,7 @@ qt: ${QT_SRC_DIR} ${PLATFORM_QT_DEPS}
 			-no-sql-tds \
 			-nomake tests \
 			-nomake examples \
+			-nomake tools \
 			-skip qtwebengine \
 			-skip qt3d \
 			-skip qtcanvas3d \
