@@ -31,6 +31,8 @@ QT_SRC_DIR=qt-everywhere-src-5.12.1
 QT_BUILD_DIR=${QT_SRC_DIR}/build
 QT_PREFIX=${ROOT_DIR}/qt
 
+JOM_URL=https://download.qt.io/official_releases/jom/jom.zip
+
 ifeq (${PLATFORM},linux)
 PLATFORM_QT_CONFIGURE=configure
 PLATFORM_QT_OPTIONS=-xcb -gtk
@@ -49,14 +51,6 @@ BUILD_THREADS:=4
 PACKAGE_FILE=cutter-deps-qt-${PLATFORM}.tar.gz
 
 all: qt pkg
-
-.PHONY: clean
-clean: clean-qt
-
-.PHONY: distclean
-distclean: distclean-qt
-
-# Download Targets
 
 ifeq (${PLATFORM},macos)
   define check_md5
@@ -118,6 +112,30 @@ define download_extract
 	$(call extract,$2)
 endef
 
+ifeq (${PLATFORM},win)
+PLATFORM_QT_DEPS=jom
+PLATFORM_CLEAN_DEPS=clean-jom
+
+jom:
+	mkdir -p jom
+	curl -fL "${JOM_URL}" -o jom/jom.zip
+	cd jom && 7z x jom.zip
+
+.PHONY: clean-jom
+clean-jom:
+	rm -rf jom
+
+else
+PLATFORM_QT_DEPS=
+PLATFORM_CLEAN_DEPS=
+endif
+
+.PHONY: clean
+clean: clean-qt ${PLATFORM_CLEAN_DEPS}
+
+.PHONY: distclean
+distclean: distclean-qt ${PLATFORM_CLEAN_DEPS}
+
 ${QT_SRC_DIR}:
 	@echo ""
 	@echo "#########################"
@@ -129,7 +147,7 @@ ${QT_SRC_DIR}:
 .PHONY: src
 src: ${QT_SRC_DIR}
 
-qt: ${QT_SRC_DIR}
+qt: ${QT_SRC_DIR} ${PLATFORM_QT_DEPS}
 	@echo ""
 	@echo "#########################"
 	@echo "# Building Qt           #"
@@ -187,8 +205,8 @@ qt: ${QT_SRC_DIR}
 			${PLATFORM_QT_OPTIONS}
 
 ifeq (${PLATFORM},win)
-	cd "${QT_BUILD_DIR}" && nmake
-	cd "${QT_BUILD_DIR}" && nmake install
+	cd "${QT_BUILD_DIR}" && "${ROOT_DIR}/jom/jom.exe" /J ${BUILD_THREADS}
+	cd "${QT_BUILD_DIR}" && "${ROOT_DIR}/jom/jom.exe" install
 else
 	cd "${QT_BUILD_DIR}" && make -j${BUILD_THREADS} > /dev/null
 	cd "${QT_BUILD_DIR}" && make install > /dev/null
