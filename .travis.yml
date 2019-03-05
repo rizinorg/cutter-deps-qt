@@ -1,5 +1,5 @@
 
-language: cxx
+language: c
 dist: xenial
 
 cache: ccache
