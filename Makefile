@@ -35,11 +35,11 @@ JOM_URL=https://download.qt.io/official_releases/jom/jom.zip
 
 ifeq (${PLATFORM},linux)
 PLATFORM_QT_CONFIGURE=configure
-PLATFORM_QT_OPTIONS=-xcb -gtk
+PLATFORM_QT_OPTIONS=-xcb -gtk -ccache
 endif
 ifeq (${PLATFORM},macos)
 PLATFORM_QT_CONFIGURE=configure
-PLATFORM_QT_OPTIONS=-ccache
+PLATFORM_QT_OPTIONS=-ccache -dbus-runtime
 endif
 ifeq (${PLATFORM},win)
 PLATFORM_QT_CONFIGURE=configure.bat
