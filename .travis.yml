@@ -32,7 +32,7 @@ install:
 
 script: 
 - echo "PATH=$PATH"
-- make
+- make -j4
 
 deploy:
   skip_cleanup: true

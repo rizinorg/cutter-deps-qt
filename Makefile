@@ -98,7 +98,9 @@ ifeq (${PLATFORM},win)
 		-x'!'${QT_SRC_DIR}/qtwayland \
 		-x'!'${QT_SRC_DIR}/qtquickcontrols \
 		-x'!'${QT_SRC_DIR}/qtquickcontrols2 \
-		-x'!'${QT_SRC_DIR}/qtx11extras
+		-x'!'${QT_SRC_DIR}/qtx11extras \
+		-x'!'${QT_SRC_DIR}/qtandroidextras \
+		-x'!'${QT_SRC_DIR}/qtwebchannel
   endef
 else
   define extract
