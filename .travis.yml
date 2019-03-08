@@ -1,6 +1,7 @@
 
 language: c
 dist: xenial
+osx_image: xcode10.1
 
 cache: ccache
 
@@ -32,7 +33,7 @@ install:
 
 script: 
 - echo "PATH=$PATH"
-- make -j4
+- make
 
 deploy:
   skip_cleanup: true
