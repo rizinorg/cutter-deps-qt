@@ -11,8 +11,8 @@ matrix:
     env: DEPLOY_FILE=cutter-deps-qt-linux.tar.gz
   - os: osx
     env: DEPLOY_FILE=cutter-deps-qt-macos.tar.gz
-  - os: windows
-    env: DEPLOY_FILE=cutter-deps-qt-windows.zip
+#  - os: windows
+#    env: DEPLOY_FILE=cutter-deps-qt-windows.zip
 
 addons:
   homebrew:
