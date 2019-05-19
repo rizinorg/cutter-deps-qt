@@ -22,12 +22,12 @@ QT_SRC_FILE=qt-everywhere-src-5.12.1.zip
 QT_SRC_MD5=4649d4e51ca836fbde08565582353140
 QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.1/single/qt-everywhere-src-5.12.1.zip
 else
-QT_SRC_FILE=qt-everywhere-src-5.12.1.tar.xz
-QT_SRC_MD5=6a37466c8c40e87d4a19c3f286ec2542
-QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.1/single/qt-everywhere-src-5.12.1.tar.xz
+QT_SRC_FILE=qt-everywhere-src-5.12.3.tar.xz
+QT_SRC_MD5=38017e0ed88b9baba063bd723d9ca8b2
+QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.3/single/qt-everywhere-src-5.12.3.tar.xz
 endif
 
-QT_SRC_DIR=qt-everywhere-src-5.12.1
+QT_SRC_DIR=qt-everywhere-src-5.12.3
 QT_BUILD_DIR=${QT_SRC_DIR}/build
 QT_PREFIX=${ROOT_DIR}/qt
 
