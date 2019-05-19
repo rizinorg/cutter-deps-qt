@@ -165,7 +165,6 @@ qt: ${QT_SRC_DIR} ${PLATFORM_QT_DEPS}
 			-release \
 			-qt-libpng \
 			-qt-libjpeg \
-			-no-opengl \
 			-no-feature-cups \
 			-no-feature-icu \
 			-no-sql-db2 \
