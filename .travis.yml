@@ -25,6 +25,8 @@ addons:
     - libxcb1-dev
     - libxkbcommon-dev
     - libgtk-3-dev
+    - libgl1-mesa-dev
+    - libglu1-mesa-dev
 
 install:
 - if [ "$TRAVIS_OS_NAME" == "macos" ]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi # for ccache
