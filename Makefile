@@ -211,8 +211,8 @@ ifeq (${PLATFORM},win)
 	cd "${QT_BUILD_DIR}" && "${ROOT_DIR}/jom/jom.exe" -J ${BUILD_THREADS}
 	cd "${QT_BUILD_DIR}" && "${ROOT_DIR}/jom/jom.exe" install
 else
-	cd "${QT_BUILD_DIR}" && make -j${BUILD_THREADS} > /dev/null
-	cd "${QT_BUILD_DIR}" && make install > /dev/null
+	cd "${QT_BUILD_DIR}" && make -j${BUILD_THREADS}
+	cd "${QT_BUILD_DIR}" && make install
 endif
 
 ifeq (${PLATFORM},macos)
