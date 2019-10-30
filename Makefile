@@ -211,7 +211,7 @@ ifeq (${PLATFORM},win)
 	cd "${QT_BUILD_DIR}" && "${ROOT_DIR}/jom/jom.exe" -J ${BUILD_THREADS}
 	cd "${QT_BUILD_DIR}" && "${ROOT_DIR}/jom/jom.exe" install
 else
-	cd "${QT_BUILD_DIR}" && make -j${BUILD_THREADS}
+	cd "${QT_BUILD_DIR}" && make -j${BUILD_THREADS} | awk "NR%10==1" # Travis doesn't like too much and too little output
 	cd "${QT_BUILD_DIR}" && make install
 endif
 
