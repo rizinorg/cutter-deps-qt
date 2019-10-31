@@ -18,16 +18,16 @@ ifeq ($(filter ${PLATFORM},${PLATFORMS_SUPPORTED}),)
 endif
 
 ifeq (${PLATFORM},win)
-QT_SRC_FILE=qt-everywhere-src-5.12.1.zip
-QT_SRC_MD5=4649d4e51ca836fbde08565582353140
-QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.1/single/qt-everywhere-src-5.12.1.zip
+QT_SRC_FILE=qt-everywhere-src-5.12.5.zip
+QT_SRC_MD5=157fa5d9c897737ce06ba4f9a20151e0
+QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.5/single/qt-everywhere-src-5.12.5.zip
 else
-QT_SRC_FILE=qt-everywhere-src-5.12.3.tar.xz
-QT_SRC_MD5=38017e0ed88b9baba063bd723d9ca8b2
-QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.3/single/qt-everywhere-src-5.12.3.tar.xz
+QT_SRC_FILE=qt-everywhere-src-5.12.5.tar.xz
+QT_SRC_MD5=d8c9ed842d39f1a5f31a7ab31e4e886c
+QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.5/single/qt-everywhere-src-5.12.5.tar.xz
 endif
 
-QT_SRC_DIR=qt-everywhere-src-5.12.3
+QT_SRC_DIR=qt-everywhere-src-5.12.5
 QT_BUILD_DIR=${QT_SRC_DIR}/build
 QT_PREFIX=${ROOT_DIR}/qt
 
@@ -211,8 +211,8 @@ ifeq (${PLATFORM},win)
 	cd "${QT_BUILD_DIR}" && "${ROOT_DIR}/jom/jom.exe" -J ${BUILD_THREADS}
 	cd "${QT_BUILD_DIR}" && "${ROOT_DIR}/jom/jom.exe" install
 else
-	cd "${QT_BUILD_DIR}" && make -j${BUILD_THREADS} > /dev/null
-	cd "${QT_BUILD_DIR}" && make install > /dev/null
+	cd "${QT_BUILD_DIR}" && make -j${BUILD_THREADS} | awk "NR%10==1" # Travis doesn't like too much and too little output
+	cd "${QT_BUILD_DIR}" && make install
 endif
 
 ifeq (${PLATFORM},macos)
