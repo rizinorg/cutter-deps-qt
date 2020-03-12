@@ -18,16 +18,16 @@ ifeq ($(filter ${PLATFORM},${PLATFORMS_SUPPORTED}),)
 endif
 
 ifeq (${PLATFORM},win)
-QT_SRC_FILE=qt-everywhere-src-5.12.5.zip
-QT_SRC_MD5=157fa5d9c897737ce06ba4f9a20151e0
-QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.5/single/qt-everywhere-src-5.12.5.zip
+QT_SRC_FILE=qt-everywhere-src-5.14.1.zip
+QT_SRC_MD5=4a0c345197dc4333977146da0f746934
+QT_SRC_URL=https://download.qt.io/official_releases/qt/5.14/5.14.1/single/qt-everywhere-src-5.14.1.zip
 else
-QT_SRC_FILE=qt-everywhere-src-5.12.5.tar.xz
-QT_SRC_MD5=d8c9ed842d39f1a5f31a7ab31e4e886c
-QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.5/single/qt-everywhere-src-5.12.5.tar.xz
+QT_SRC_FILE=qt-everywhere-src-5.14.1.tar.xz
+QT_SRC_MD5=781c3179410aff7ef84607214e1e91b4
+QT_SRC_URL=https://download.qt.io/official_releases/qt/5.14/5.14.1/single/qt-everywhere-src-5.14.1.tar.xz
 endif
 
-QT_SRC_DIR=qt-everywhere-src-5.12.5
+QT_SRC_DIR=qt-everywhere-src-5.14.1
 QT_BUILD_DIR=${QT_SRC_DIR}/build
 QT_PREFIX=${ROOT_DIR}/qt
 
