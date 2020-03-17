@@ -135,7 +135,10 @@ if (-not $?) {
 
 Write-Output "Building Qt"
 New-Item -Path . -Name $qt_build_dir -ItemType Directory
+Write-Output "build dir '$qt_build_dir'"
 Set-Location -Path $qt_build_dir
+Write-Output "Current dir"
+Get-Location
 ../configure.bat `
 	-prefix "${QT_PREFIX}" `
 	-opensource -confirm-license `
