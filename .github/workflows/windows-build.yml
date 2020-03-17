@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - qt14 # TODO: remove when branch is done
   pull_request:
     branches:
     - master
