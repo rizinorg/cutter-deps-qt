@@ -92,35 +92,35 @@ Write-Output "File hash correct"
 Write-Output "Extracting"
 7z.exe x -bt -aos -bsp1 "$output" `
     -x'!'${QT_SRC_DIR}/qtwebengine `
-	-x'!'${QT_SRC_DIR}/qt3d `
-	-x'!'${QT_SRC_DIR}/qtcanvas3d `
-	-x'!'${QT_SRC_DIR}/qtcharts `
-	-x'!'${QT_SRC_DIR}/qtconnectivity `
-	-x'!'${QT_SRC_DIR}/qtdeclarative `
-	-x'!'${QT_SRC_DIR}/qtdoc `
-	-x'!'${QT_SRC_DIR}/qtscript `
-	-x'!'${QT_SRC_DIR}/qtdatavis3d `
-	-x'!'${QT_SRC_DIR}/qtgamepad `
-	-x'!'${QT_SRC_DIR}/qtlocation `
-	-x'!'${QT_SRC_DIR}/qtgraphicaleffects `
-	-x'!'${QT_SRC_DIR}/qtmultimedia `
-	-x'!'${QT_SRC_DIR}/qtpurchasing `
-	-x'!'${QT_SRC_DIR}/qtscxml `
-	-x'!'${QT_SRC_DIR}/qtsensors `
-	-x'!'${QT_SRC_DIR}/qtserialbus `
-	-x'!'${QT_SRC_DIR}/qtserialport `
-	-x'!'${QT_SRC_DIR}/qtspeech `
-	-x'!'${QT_SRC_DIR}/qtvirtualkeyboard `
-	-x'!'${QT_SRC_DIR}/qtwebglplugin `
-	-x'!'${QT_SRC_DIR}/qtwebsockets `
-	-x'!'${QT_SRC_DIR}/qtwebview `
-	-x'!'${QT_SRC_DIR}/qtmacextras `
-	-x'!'${QT_SRC_DIR}/qtwayland `
-	-x'!'${QT_SRC_DIR}/qtquickcontrols `
-	-x'!'${QT_SRC_DIR}/qtquickcontrols2 `
-	-x'!'${QT_SRC_DIR}/qtx11extras `
-	-x'!'${QT_SRC_DIR}/qtandroidextras `
-	-x'!'${QT_SRC_DIR}/qtwebchannel
+    -x'!'${QT_SRC_DIR}/qt3d `
+    -x'!'${QT_SRC_DIR}/qtcanvas3d `
+    -x'!'${QT_SRC_DIR}/qtcharts `
+    -x'!'${QT_SRC_DIR}/qtconnectivity `
+    -x'!'${QT_SRC_DIR}/qtdeclarative `
+    -x'!'${QT_SRC_DIR}/qtdoc `
+    -x'!'${QT_SRC_DIR}/qtscript `
+    -x'!'${QT_SRC_DIR}/qtdatavis3d `
+    -x'!'${QT_SRC_DIR}/qtgamepad `
+    -x'!'${QT_SRC_DIR}/qtlocation `
+    -x'!'${QT_SRC_DIR}/qtgraphicaleffects `
+    -x'!'${QT_SRC_DIR}/qtmultimedia `
+    -x'!'${QT_SRC_DIR}/qtpurchasing `
+    -x'!'${QT_SRC_DIR}/qtscxml `
+    -x'!'${QT_SRC_DIR}/qtsensors `
+    -x'!'${QT_SRC_DIR}/qtserialbus `
+    -x'!'${QT_SRC_DIR}/qtserialport `
+    -x'!'${QT_SRC_DIR}/qtspeech `
+    -x'!'${QT_SRC_DIR}/qtvirtualkeyboard `
+    -x'!'${QT_SRC_DIR}/qtwebglplugin `
+    -x'!'${QT_SRC_DIR}/qtwebsockets `
+    -x'!'${QT_SRC_DIR}/qtwebview `
+    -x'!'${QT_SRC_DIR}/qtmacextras `
+    -x'!'${QT_SRC_DIR}/qtwayland `
+    -x'!'${QT_SRC_DIR}/qtquickcontrols `
+    -x'!'${QT_SRC_DIR}/qtquickcontrols2 `
+    -x'!'${QT_SRC_DIR}/qtx11extras `
+    -x'!'${QT_SRC_DIR}/qtandroidextras `
+    -x'!'${QT_SRC_DIR}/qtwebchannel
 if (-not $?) {
     Fatal-Error "Failed to extract source"
 }
@@ -139,64 +139,17 @@ Write-Output "build dir '$qt_build_dir'"
 Set-Location -Path $qt_build_dir
 Write-Output "Current dir"
 Get-Location
-$ErrorActionPreference = "continue"
-../configure.bat `
-	-prefix "${QT_PREFIX}" `
-	-opensource -confirm-license `
-	-release `
-	-qt-libpng `
-	-qt-libjpeg `
-    -schannel `
-	-no-feature-cups `
-	-no-feature-icu `
-	-no-sql-db2 `
-	-no-sql-ibase `
-	-no-sql-mysql `
-	-no-sql-oci `
-	-no-sql-odbc `
-	-no-sql-psql `
-	-no-sql-sqlite2 `
-	-no-sql-sqlite `
-	-no-sql-tds `
-	-nomake tests `
-	-nomake examples `
-	-nomake tools `
-	-skip qtwebengine `
-	-skip qt3d `
-	-skip qtcanvas3d `
-	-skip qtcharts `
-	-skip qtconnectivity `
-	-skip qtdeclarative `
-	-skip qtdoc `
-	-skip qtscript `
-	-skip qtdatavis3d `
-	-skip qtgamepad `
-	-skip qtlocation `
-	-skip qtgraphicaleffects `
-	-skip qtmultimedia `
-	-skip qtpurchasing `
-	-skip qtscxml `
-	-skip qtsensors `
-	-skip qtserialbus `
-	-skip qtserialport `
-	-skip qtspeech `
-	-skip qtvirtualkeyboard `
-	-skip qtwebglplugin `
-	-skip qtwebsockets `
-	-skip qtwebview `
-	-skip qtquickcontrols `
-	-skip qtquickcontrols2 `
-	-skip qtwayland -skip qtmacextras -skip qtx11extras 2>&1
+cmd /c "..\configure.bat -prefix `"${QT_PREFIX}`" -opensource -confirm-license  -release  -qt-libpng  -qt-libjpeg  -schannel  -no-feature-cups  -no-feature-icu  -no-sql-db2  -no-sql-ibase  -no-sql-mysql  -no-sql-oci  -no-sql-odbc  -no-sql-psql  -no-sql-sqlite2  -no-sql-sqlite  -no-sql-tds  -nomake tests  -nomake examples  -nomake tools  -skip qtwebengine  -skip qt3d  -skip qtcanvas3d  -skip qtcharts  -skip qtconnectivity  -skip qtdeclarative  -skip qtdoc  -skip qtscript  -skip qtdatavis3d  -skip qtgamepad  -skip qtlocation  -skip qtgraphicaleffects  -skip qtmultimedia  -skip qtpurchasing  -skip qtscxml  -skip qtsensors  -skip qtserialbus  -skip qtserialport  -skip qtspeech  -skip qtvirtualkeyboard  -skip qtwebglplugin  -skip qtwebsockets  -skip qtwebview  -skip qtquickcontrols  -skip qtquickcontrols2  -skip qtwayland -skip qtmacextras -skip qtx11extras 2>&1"
 if (-not $?) {
-    Fatal-Error "Failed to configure qt"
+     Fatal-Error "Failed to configure qt"
 }
-$ErrorActionPreference = "stop"
 
-& "$PSScriptRoot/jom/jom.exe" -J $BUILD_THREADS
+Write-Output "Running jom"
+cmd /c "`"$PSScriptRoot/jom/jom.exe`" -J $BUILD_THREADS 2>&1"
 if (-not $?) {
     Fatal-Error "Qt compilation failed"
 }
-& "$PSScriptRoot/jom/jom.exe" install
+cmd /c "`"$PSScriptRoot/jom/jom.exe`" install 2>&1"
 if (-not $?) {
     Fatal-Error "Qt file installation failed"
 }
