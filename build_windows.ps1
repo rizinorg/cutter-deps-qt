@@ -139,6 +139,7 @@ Write-Output "build dir '$qt_build_dir'"
 Set-Location -Path $qt_build_dir
 Write-Output "Current dir"
 Get-Location
+$ErrorActionPreference = "continue"
 ../configure.bat `
 	-prefix "${QT_PREFIX}" `
 	-opensource -confirm-license `
@@ -185,10 +186,11 @@ Get-Location
 	-skip qtwebview `
 	-skip qtquickcontrols `
 	-skip qtquickcontrols2 `
-	-skip qtwayland -skip qtmacextras -skip qtx11extras
+	-skip qtwayland -skip qtmacextras -skip qtx11extras 2>&1
 if (-not $?) {
     Fatal-Error "Failed to configure qt"
 }
+$ErrorActionPreference = "stop"
 
 & "$PSScriptRoot/jom/jom.exe" -J $BUILD_THREADS
 if (-not $?) {
