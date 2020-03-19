@@ -27,12 +27,14 @@ addons:
     - libglu1-mesa-dev
 
 install:
-- if [ "$TRAVIS_OS_NAME" == "macos" ]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi # for ccache
+#- if [ "$TRAVIS_OS_NAME" == "macos" ]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi # for ccache
+- if [ "$TRAVIS_OS_NAME" == "macos" ]; then export PATH=$(brew --prefix)/bin:$(brew --prefix)/sbin:$PATH; fi # for ccache
 - if [ "$TRAVIS_OS_NAME" == "windows" ]; then choco install -y make visualstudio2017-workload-vctools; fi
 - if [ "$TRAVIS_OS_NAME" == "windows" ]; then source vc-env.sh; fi
 
 script: 
 - echo "PATH=$PATH"
+- which ccache
 - make
 
 deploy:
