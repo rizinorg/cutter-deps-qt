@@ -33,8 +33,7 @@ install:
 
 script: 
 - echo "PATH=$PATH"
-- which ccache
-- make
+- make -j2
 
 deploy:
   skip_cleanup: true
