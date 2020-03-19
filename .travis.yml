@@ -7,9 +7,9 @@ matrix:
   include:
   - os: linux
     env: DEPLOY_FILE=cutter-deps-qt-linux.tar.gz
-  - os: osx
-    env: DEPLOY_FILE=cutter-deps-qt-macos.tar.gz
-    osx_image: xcode10.3
+#  - os: osx
+#    env: DEPLOY_FILE=cutter-deps-qt-macos.tar.gz
+#    osx_image: xcode10.3
 
 addons:
   homebrew:
@@ -33,7 +33,7 @@ install:
 
 script: 
 - echo "PATH=$PATH"
-- make -j2
+- make
 
 deploy:
   skip_cleanup: true

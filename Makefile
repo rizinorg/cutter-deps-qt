@@ -40,7 +40,7 @@ PLATFORM_QT_OPTIONS=-xcb -gtk -ccache -linker gold
 endif
 ifeq (${PLATFORM},macos)
 PLATFORM_QT_CONFIGURE=configure
-PLATFORM_QT_OPTIONS=-ccache -dbus-runtime
+PLATFORM_QT_OPTIONS=-dbus-runtime
 endif
 ifeq (${PLATFORM},win)
 PLATFORM_QT_CONFIGURE=configure.bat

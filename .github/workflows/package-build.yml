@@ -1,0 +1,28 @@
+name: Windows build
+
+on:
+  push:
+    branches:
+    - master
+    - qt14 # TODO: remove when branch is done
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+    steps:
+    - uses: actions/checkout@v2
+    - name: build windows
+      if: contains(matrix.os, 'windows')
+      shell: powershell
+      run: ./build_windows.ps1
+    - name: build macos
+      if: contains(matrix.os, 'macos')
+      run: |
+        xcode-select --print-path
+        make
