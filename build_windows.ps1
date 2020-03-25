@@ -76,7 +76,7 @@ $hash_expected = "ffd5e24ac936d7a9d636080b2270b53b4f1e12bfad1bdc90c1be14dd3f84ae
 $QT_SRC_DIR = "qt-everywhere-src-$version_full"
 $qt_build_dir = "$QT_SRC_DIR/build"
 $QT_PREFIX = "$PSScriptRoot/qt"
-$BUILD_THREADS = 2
+$BUILD_THREADS = 3
 $PACKAGE_FILE = "cutter-deps-qt-win.zip"
 
 
