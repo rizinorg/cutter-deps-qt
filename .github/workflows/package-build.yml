@@ -17,6 +17,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, macos-latest]
+      fail-fast: false
     steps:
     - uses: actions/checkout@v2
     - name: build windows
