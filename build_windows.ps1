@@ -156,7 +156,13 @@ if (-not $?) {
 
 Set-Location $PSScriptRoot
 
-7z a -ttar -so -an "$QT_PREFIX" | 7z a -si $PACKAGE_FILE 
+$TMP_TAR = "cutter-deps-qt-win.tar"
+7z a -bsp1 -ttar $TMP_TAR "$QT_PREFIX"
+if (-not $?) {
+    Fatal-Error "Result compressing failed"
+}
+
+7z a -bsp1 $PACKAGE_FILE $TMP_TAR
 if (-not $?) {
     Fatal-Error "Result compressing failed"
 }
