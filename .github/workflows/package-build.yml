@@ -25,8 +25,8 @@ jobs:
       shell: powershell
       run: |
         ./build_windows.ps1
-        echo '::set-env name=UPLOAD_FILE::cutter-deps-qt-win.zip'
-        echo '::set-env name=UPLOAD_ASSET_TYPE::application/zip'
+        echo '::set-env name=UPLOAD_FILE::cutter-deps-qt-win.tar.gz'
+        echo '::set-env name=UPLOAD_ASSET_TYPE::application/gzip'
     - name: build macos
       if: contains(matrix.os, 'macos')
       run: |

@@ -77,7 +77,7 @@ $QT_SRC_DIR = "qt-everywhere-src-$version_full"
 $qt_build_dir = "$QT_SRC_DIR/build"
 $QT_PREFIX = "$PSScriptRoot/qt"
 $BUILD_THREADS = 3
-$PACKAGE_FILE = "cutter-deps-qt-win.zip"
+$PACKAGE_FILE = "cutter-deps-qt-win.tar.gz"
 
 
 # https://download.qt.io/official_releases/jom/jom.zip
@@ -156,7 +156,7 @@ if (-not $?) {
 
 Set-Location $PSScriptRoot
 
-7z a -bsp1 $PACKAGE_FILE "$QT_PREFIX"
+7z a -ttar -so -an "$QT_PREFIX" | 7z a -si $PACKAGE_FILE 
 if (-not $?) {
     Fatal-Error "Result compressing failed"
 }
