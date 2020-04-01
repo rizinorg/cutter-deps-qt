@@ -146,11 +146,7 @@ ${QT_SRC_DIR}:
 	@echo "#########################"
 	@echo ""
 	$(call download_extract,${QT_SRC_URL},${QT_SRC_FILE},${QT_SRC_MD5})
-	#cp patch/qttools-src.pro "${QT_SRC_DIR}/qttools/src/src.pro"
-ifeq (${PLATFORM},linux)
-	# https://bugreports.qt.io/browse/QTBUG-82569 should be fixed in >= 5.14.2
-	patch -t -d "${QT_SRC_DIR}/qtwayland" -p1 -i "${ROOT_DIR}/patch/938baff.diff"
-endif
+	# Add patches here if required
 
 .PHONY: src
 src: ${QT_SRC_DIR}
