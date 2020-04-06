@@ -18,16 +18,16 @@ ifeq ($(filter ${PLATFORM},${PLATFORMS_SUPPORTED}),)
 endif
 
 ifeq (${PLATFORM},win)
-QT_SRC_FILE=qt-everywhere-src-5.12.5.zip
-QT_SRC_MD5=157fa5d9c897737ce06ba4f9a20151e0
-QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.5/single/qt-everywhere-src-5.12.5.zip
+QT_SRC_FILE=qt-everywhere-src-5.14.2.zip
+QT_SRC_MD5=93a3d5cae271fdab6b3cd9a8e0c4a260
+QT_SRC_URL=https://download.qt.io/official_releases/qt/5.14/5.14.2/single/qt-everywhere-src-5.14.2.zip
 else
-QT_SRC_FILE=qt-everywhere-src-5.12.5.tar.xz
-QT_SRC_MD5=d8c9ed842d39f1a5f31a7ab31e4e886c
-QT_SRC_URL=https://download.qt.io/official_releases/qt/5.12/5.12.5/single/qt-everywhere-src-5.12.5.tar.xz
+QT_SRC_FILE=qt-everywhere-src-5.14.2.tar.xz
+QT_SRC_MD5=b3d2b6d00e6ca8a8ede6d1c9bdc74daf
+QT_SRC_URL=https://download.qt.io/official_releases/qt/5.14/5.14.2/single/qt-everywhere-src-5.14.2.tar.xz
 endif
 
-QT_SRC_DIR=qt-everywhere-src-5.12.5
+QT_SRC_DIR=qt-everywhere-src-5.14.2
 QT_BUILD_DIR=${QT_SRC_DIR}/build
 QT_PREFIX=${ROOT_DIR}/qt
 
@@ -35,11 +35,12 @@ JOM_URL=https://download.qt.io/official_releases/jom/jom.zip
 
 ifeq (${PLATFORM},linux)
 PLATFORM_QT_CONFIGURE=configure
-PLATFORM_QT_OPTIONS=-xcb -gtk -ccache
+PLATFORM_QT_OPTIONS=-xcb -xkb -gtk -ccache -linker gold
+# -linker gold https://bugreports.qt.io/browse/QTBUG-76196
 endif
 ifeq (${PLATFORM},macos)
 PLATFORM_QT_CONFIGURE=configure
-PLATFORM_QT_OPTIONS=-ccache -dbus-runtime
+PLATFORM_QT_OPTIONS=-dbus-runtime
 endif
 ifeq (${PLATFORM},win)
 PLATFORM_QT_CONFIGURE=configure.bat
@@ -145,7 +146,7 @@ ${QT_SRC_DIR}:
 	@echo "#########################"
 	@echo ""
 	$(call download_extract,${QT_SRC_URL},${QT_SRC_FILE},${QT_SRC_MD5})
-	#cp patch/qttools-src.pro "${QT_SRC_DIR}/qttools/src/src.pro"
+	# Add patches here if required
 
 .PHONY: src
 src: ${QT_SRC_DIR}
