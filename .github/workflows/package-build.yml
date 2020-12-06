@@ -6,6 +6,7 @@ on:
     - master
     tags:
     - v*
+    - deploy-test*
   pull_request:
     branches:
     - master
@@ -40,6 +41,11 @@ jobs:
         make
         echo UPLOAD_FILE=cutter-deps-qt-macos.tar.gz >> $GITHUB_ENV
         echo UPLOAD_ASSET_TYPE=application/gzip >> $GITHUB_ENV
+    - uses: actions/upload-artifact@v2
+      if: startsWith(github.event.ref, 'refs/tags') == false
+      with:
+        name: ${{ env.UPLOAD_FILE }}
+        path: build/${{ env.UPLOAD_FILE }}
     - name: Get release
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       id: get_release
@@ -56,8 +62,3 @@ jobs:
           asset_path: ${{ env.UPLOAD_FILE }}
           asset_name: ${{ env.UPLOAD_FILE }}
           asset_content_type: ${{ env.UPLOAD_ASSET_TYPE }}
-    - uses: actions/upload-artifact@v2
-      if: env.PACKAGE_NAME != null && steps.get_release.outputs.upload_url == null
-      with:
-        name: ${{ env.UPLOAD_FILE }}
-        path: build/${{ env.UPLOAD_FILE }}
