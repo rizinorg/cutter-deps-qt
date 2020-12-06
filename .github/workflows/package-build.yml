@@ -36,7 +36,7 @@ jobs:
     - name: build linux
       if: contains(matrix.os, 'ubuntu')
       run: |
-        sudo apt-get install libxcb1-dev libxkbcommon-dev libxkbcommon-x11-dev libgtk-3-dev libgl1-mesa-dev libglu1-mesa-dev
+        sudo apt-get install libxcb1-dev libxkbcommon-dev libxkbcommon-x11-dev libgtk-3-dev libgl1-mesa-dev libglu1-mesa-dev libxcb-*-dev
         make
         echo UPLOAD_FILE=cutter-deps-qt-macos.tar.gz >> $GITHUB_ENV
         echo UPLOAD_ASSET_TYPE=application/gzip >> $GITHUB_ENV
