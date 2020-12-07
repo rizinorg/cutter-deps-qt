@@ -45,7 +45,7 @@ jobs:
       if: startsWith(github.event.ref, 'refs/tags') == false
       with:
         name: ${{ env.UPLOAD_FILE }}
-        path: build/${{ env.UPLOAD_FILE }}
+        path: ${{ env.UPLOAD_FILE }}
     - name: Get release
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       id: get_release
