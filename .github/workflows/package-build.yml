@@ -32,20 +32,21 @@ jobs:
       run: |
         xcode-select --print-path
         make
-        echo UPLOAD_FILE=cutter-deps-qt-linux.tar.gz >> $GITHUB_ENV
+        echo UPLOAD_FILE=cutter-deps-qt-macos.tar.gz >> $GITHUB_ENV
         echo UPLOAD_ASSET_TYPE=application/gzip >> $GITHUB_ENV
     - name: build linux
       if: contains(matrix.os, 'ubuntu')
       run: |
         sudo apt-get install libxcb1-dev libxkbcommon-dev libxkbcommon-x11-dev libgtk-3-dev libgl1-mesa-dev libglu1-mesa-dev libxcb-*-dev
         make
-        echo UPLOAD_FILE=cutter-deps-qt-macos.tar.gz >> $GITHUB_ENV
+        echo UPLOAD_FILE=cutter-deps-qt-linux.tar.gz >> $GITHUB_ENV
         echo UPLOAD_ASSET_TYPE=application/gzip >> $GITHUB_ENV
     - uses: actions/upload-artifact@v2
       if: startsWith(github.event.ref, 'refs/tags') == false
       with:
         name: ${{ env.UPLOAD_FILE }}
         path: ${{ env.UPLOAD_FILE }}
+        if-no-files-found: warn
     - name: Get release
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       id: get_release
