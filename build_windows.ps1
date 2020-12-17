@@ -15,6 +15,7 @@ function Fatal-Error() {
 }
 
 function SetupVsEnv() {
+    vswhere -legacy -prerelease
     $path = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
     if (-not $?) {
         Fatal-Error "vswhere failed"
@@ -67,12 +68,12 @@ function DownloadAndCheckFile() {
 
 SetupVsEnv
 
-$version_base = "5.14"
-$version_full = "5.14.2"
+$version_base = "5.15"
+$version_full = "5.15.2"
 #$url = "https://download.qt.io/official_releases/qt/$version_base/$version_full/single/qt-everywhere-src-$version_full.zip"
 $url = "http://master.qt.io/archive/qt/$version_base/$version_full/single/qt-everywhere-src-$version_full.zip"
 $output = "qt-everywhere-src-$version_full.zip"
-$hash_expected = "847f39c5b9db3eeee890a2aee3065ae81032287ab9d5812015ff9b37d19b64d6"
+$hash_expected = "6c5d37aa96f937eb59fd4e9ce5ec97f45fbf2b5de138b086bdeff782ec661733"
 $QT_SRC_DIR = "qt-everywhere-src-$version_full"
 $qt_build_dir = "$QT_SRC_DIR/build"
 $QT_PREFIX = "$PSScriptRoot/qt"
