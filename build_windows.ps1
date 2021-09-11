@@ -78,7 +78,7 @@ $QT_SRC_DIR = "qt-everywhere-src-$version_full"
 $qt_build_dir = "$QT_SRC_DIR/build"
 $QT_PREFIX = "$PSScriptRoot/qt"
 $BUILD_THREADS = 3
-$PACKAGE_FILE = "cutter-deps-qt-win.tar.gz"
+$PACKAGE_FILE = "cutter-deps-qt-win-x86_64.tar.gz"
 
 
 # https://download.qt.io/official_releases/jom/jom.zip

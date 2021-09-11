@@ -17,6 +17,8 @@ ifeq ($(filter ${PLATFORM},${PLATFORMS_SUPPORTED}),)
   ${error Platform not detected or unsupported.}
 endif
 
+ARCH:=x86_64
+
 ifeq (${PLATFORM},win)
 QT_SRC_FILE=qt-everywhere-src-5.15.2.zip
 QT_SRC_MD5=40fc0bda97fbcc1eff8ab905ce2b0300
@@ -50,7 +52,7 @@ endif
 
 BUILD_THREADS:=4
 
-PACKAGE_FILE=cutter-deps-qt-${PLATFORM}.tar.gz
+PACKAGE_FILE=cutter-deps-qt-${PLATFORM}-${ARCH}.tar.gz
 
 all: qt pkg
 
