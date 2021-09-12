@@ -19,14 +19,19 @@ endif
 
 ARCH:=x86_64
 
+#BASE_URL=https://qt-mirror.dannhauer.de
+#BASE_URL=https://ftp.fau.de/qtproject
+#BASE_URL=http://www.mirrorservice.org/sites/download.qt-project.org
+BASE_URL=https://download.qt.io
+
 ifeq (${PLATFORM},win)
 QT_SRC_FILE=qt-everywhere-src-5.15.2.zip
 QT_SRC_MD5=40fc0bda97fbcc1eff8ab905ce2b0300
-QT_SRC_URL=https://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.zip
+QT_SRC_URL=${BASE_URL}/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.zip
 else
 QT_SRC_FILE=qt-everywhere-src-5.15.2.tar.xz
 QT_SRC_MD5=e1447db4f06c841d8947f0a6ce83a7b5
-QT_SRC_URL=https://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz
+QT_SRC_URL=${BASE_URL}/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz
 endif
 
 QT_SRC_DIR=qt-everywhere-src-5.15.2
@@ -43,7 +48,7 @@ PLATFORM_QT_OPTIONS=-xcb -gtk -linker gold
 endif
 ifeq (${PLATFORM},macos)
 PLATFORM_QT_CONFIGURE=configure
-PLATFORM_QT_OPTIONS=-dbus-runtime
+PLATFORM_QT_OPTIONS=-dbus-runtime -device-option QMAKE_APPLE_DEVICE_ARCHS=${ARCH}
 endif
 ifeq (${PLATFORM},win)
 PLATFORM_QT_CONFIGURE=configure.bat
