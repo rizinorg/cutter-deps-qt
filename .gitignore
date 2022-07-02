@@ -4,3 +4,4 @@
 *~
 *.swp
 /cutter-deps-*.tar.gz
+.DS_Store
