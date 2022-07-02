@@ -2,6 +2,7 @@
 ROOT_DIR=${CURDIR}
 
 PLATFORMS_SUPPORTED=win linux macos
+ARCH:=x86_64
 ifeq (${OS},Windows_NT)
   PLATFORM:=win
 else
@@ -11,13 +12,12 @@ else
   endif
   ifeq (${UNAME_S},Darwin)
     PLATFORM:=macos
+    ARCH:=${shell uname -m}
   endif
 endif
 ifeq ($(filter ${PLATFORM},${PLATFORMS_SUPPORTED}),)
   ${error Platform not detected or unsupported.}
 endif
-
-ARCH:=x86_64
 
 #BASE_URL=https://qt-mirror.dannhauer.de
 #BASE_URL=https://ftp.fau.de/qtproject
@@ -25,16 +25,16 @@ ARCH:=x86_64
 BASE_URL=https://download.qt.io
 
 ifeq (${PLATFORM},win)
-QT_SRC_FILE=qt-everywhere-src-5.15.2.zip
-QT_SRC_MD5=40fc0bda97fbcc1eff8ab905ce2b0300
-QT_SRC_URL=${BASE_URL}/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.zip
+QT_SRC_FILE=qt-everywhere-opensource-src-5.15.5.zip
+QT_SRC_MD5=7f4ec67f41635ba338f505f09b68fe02
+QT_SRC_URL=${BASE_URL}/official_releases/qt/5.15/5.15.5/single/qt-everywhere-opensource-src-5.15.5.zip
 else
-QT_SRC_FILE=qt-everywhere-src-5.15.2.tar.xz
-QT_SRC_MD5=e1447db4f06c841d8947f0a6ce83a7b5
-QT_SRC_URL=${BASE_URL}/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz
+QT_SRC_FILE=qt-everywhere-opensource-src-5.15.5.tar.xz
+QT_SRC_MD5=0fbcde36556a366df8ecf24a7ea1f7ec
+QT_SRC_URL=${BASE_URL}/official_releases/qt/5.15/5.15.5/single/qt-everywhere-opensource-src-5.15.5.tar.xz
 endif
 
-QT_SRC_DIR=qt-everywhere-src-5.15.2
+QT_SRC_DIR=qt-everywhere-src-5.15.5
 QT_BUILD_DIR=${QT_SRC_DIR}/build
 QT_PREFIX=${ROOT_DIR}/qt
 
@@ -155,6 +155,9 @@ ${QT_SRC_DIR}:
 	@echo ""
 	$(call download_extract,${QT_SRC_URL},${QT_SRC_FILE},${QT_SRC_MD5})
 	# Add patches here if required
+	patch ${QT_SRC_DIR}/qtbase/src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.h qiosurfacegraphicsbuffer.h.patch
+	# https://github.com/macports/macports-ports/blob/d2a7c094acba41c84dbe792480f6a1b32371d5e7/aqua/qt5/Portfile#L1057-L1059
+	cd ${QT_SRC_DIR}/qtbase && patch -p0 < ../../patch-qmake-dont-hard-code-x86_64-as-the-architecture-when-using-qmake.diff
 
 .PHONY: src
 src: ${QT_SRC_DIR}
