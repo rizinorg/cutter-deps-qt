@@ -1,0 +1,22 @@
+X-Git-Url: https://codereview.qt-project.org/gitweb?p=qt%2Fqtbase.git;a=blobdiff_plain;f=src%2Fgui%2Fplatform%2Funix%2Fqxkbcommon.cpp;h=394407e4039cd9206139ab38452feb191bb9ec44;hp=2fa2ae891100d55da9100bf93333267f2aa03c84;hb=bcdec67cd2e8063aca6beed6b301e47974bcd2ce;hpb=819e52db0d9469737d9932fda8672eb9217996e1
+https://bugreports.qt.io/browse/QTBUG-117950
+
+diff --git a/src/gui/platform/unix/qxkbcommon.cpp b/src/gui/platform/unix/qxkbcommon.cpp
+index 2fa2ae891100..394407e4039c 100644
+--- a/src/gui/platform/unix/qxkbcommon.cpp
++++ b/src/gui/platform/unix/qxkbcommon.cpp
+@@ -239,10 +239,14 @@ static constexpr const auto KeyTbl = qMakeArray(
+         Xkb2Qt<XKB_KEY_dead_small_schwa,        Qt::Key_Dead_Small_Schwa>,
+         Xkb2Qt<XKB_KEY_dead_capital_schwa,      Qt::Key_Dead_Capital_Schwa>,
+         Xkb2Qt<XKB_KEY_dead_greek,              Qt::Key_Dead_Greek>,
++/* The following four XKB_KEY_dead keys got removed in libxkbcommon 1.6.0
++   The define check is kind of version check here. */
++#ifdef XKB_KEY_dead_lowline
+         Xkb2Qt<XKB_KEY_dead_lowline,            Qt::Key_Dead_Lowline>,
+         Xkb2Qt<XKB_KEY_dead_aboveverticalline,  Qt::Key_Dead_Aboveverticalline>,
+         Xkb2Qt<XKB_KEY_dead_belowverticalline,  Qt::Key_Dead_Belowverticalline>,
+         Xkb2Qt<XKB_KEY_dead_longsolidusoverlay, Qt::Key_Dead_Longsolidusoverlay>,
++#endif
+ 
+         // Special keys from X.org - This include multimedia keys,
+         // wireless/bluetooth/uwb keys, special launcher keys, etc.
