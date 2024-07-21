@@ -140,8 +140,6 @@ ${QT_SRC_DIR}:
 	@echo ""
 	$(call download_extract,${QT_SRC_URL},${QT_SRC_FILE},${QT_SRC_MD5})
 	# Add patches here if required
-	# https://github.com/macports/macports-ports/blob/d2a7c094acba41c84dbe792480f6a1b32371d5e7/aqua/qt5/Portfile#L1057-L1059
-	#cd ${QT_SRC_DIR}/qtbase && patch -p0 < ../../patches/patch-qmake-dont-hard-code-x86_64-as-the-architecture-when-using-qmake.diff
 
 .PHONY: src
 src: ${QT_SRC_DIR}
