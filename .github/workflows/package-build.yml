@@ -55,6 +55,7 @@ jobs:
     - name: build linux outputs
       if: contains(matrix.os, 'ubuntu')
       run: |
+        sudo apt-get update
         sudo apt-get install \
           libxcb1-dev \
           libxkbcommon-dev \
