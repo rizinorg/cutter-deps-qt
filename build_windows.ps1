@@ -68,23 +68,17 @@ function DownloadAndCheckFile() {
 
 SetupVsEnv
 
-$version_base = "5.15"
-$version_full = "5.15.2"
+$version_base = "6.7"
+$version_full = "6.7.2"
 #$url = "https://download.qt.io/official_releases/qt/$version_base/$version_full/single/qt-everywhere-src-$version_full.zip"
 $url = "http://master.qt.io/archive/qt/$version_base/$version_full/single/qt-everywhere-src-$version_full.zip"
 $output = "qt-everywhere-src-$version_full.zip"
-$hash_expected = "6c5d37aa96f937eb59fd4e9ce5ec97f45fbf2b5de138b086bdeff782ec661733"
+$hash_expected = "e71c1f1b453b2b5a34173307d2ba9d35d3383e9727fbc34dc7eef189f351bca5"
 $QT_SRC_DIR = "qt-everywhere-src-$version_full"
 $qt_build_dir = "$QT_SRC_DIR/build"
 $QT_PREFIX = "$PSScriptRoot/qt"
 $BUILD_THREADS = 3
 $PACKAGE_FILE = "cutter-deps-qt-win-x86_64.tar.gz"
-
-
-# https://download.qt.io/official_releases/jom/jom.zip
-$jom_url = "http://master.qt.io/official_releases/jom/jom_1_1_3.zip"
-$jom_archive = "jom.zip"
-$jom_hash = "128fdd846fe24f8594eed37d1d8929a0ea78df563537c0c1b1861a635013fff8"
 
 
 DownloadAndCheckFile $url $output $hash_expected
@@ -126,31 +120,23 @@ if (-not $?) {
     Fatal-Error "Failed to extract source"
 }
 
-DownloadAndCheckFile $jom_url $jom_archive $jom_hash
-
-Write-Output "Extracting jom"
-7z.exe x -bt -aos -bsp1 -ojom "$jom_archive"
-if (-not $?) {
-    Fatal-Error "Failed to extract jom"
-}
-
 Write-Output "Building Qt"
 New-Item -Path . -Name $qt_build_dir -ItemType Directory
 Write-Output "build dir '$qt_build_dir'"
 Set-Location -Path $qt_build_dir
 Write-Output "Current dir"
 Get-Location
-cmd /c "..\configure.bat -prefix `"${QT_PREFIX}`" -opensource -confirm-license  -release  -qt-libpng  -qt-libjpeg  -schannel  -no-feature-cups  -no-feature-icu  -no-sql-db2  -no-sql-ibase  -no-sql-mysql  -no-sql-oci  -no-sql-odbc  -no-sql-psql  -no-sql-sqlite2  -no-sql-sqlite  -no-sql-tds  -nomake tests  -nomake examples  -nomake tools  -skip qtwebengine  -skip qt3d  -skip qtcanvas3d  -skip qtcharts  -skip qtconnectivity  -skip qtdeclarative  -skip qtdoc  -skip qtscript  -skip qtdatavis3d  -skip qtgamepad  -skip qtlocation  -skip qtgraphicaleffects  -skip qtmultimedia  -skip qtpurchasing  -skip qtscxml  -skip qtsensors  -skip qtserialbus  -skip qtserialport  -skip qtspeech  -skip qtvirtualkeyboard  -skip qtwebglplugin  -skip qtwebsockets  -skip qtwebview  -skip qtquickcontrols  -skip qtquickcontrols2  -skip qtwayland -skip qtmacextras -skip qtx11extras 2>&1"
+cmd /c "..\configure.bat -prefix `"${QT_PREFIX}`" -opensource -confirm-license -release -qt-libpng -qt-libjpeg -no-feature-cups -no-feature-icu -no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-psql -no-sql-sqlite -no-feature-assistant -no-feature-clang -no-feature-designer -nomake tests -nomake examples -skip qt3d -skip qtactiveqt -skip qtcharts -skip qtcoap -skip qtconnectivity -skip qtdatavis3d -skip qtdeclarative -skip qtdoc -skip qtgrpc -skip qtgraphs -skip qthttpserver -skip qtlanguageserver -skip qtlocation -skip qtlottie -skip qtmqtt -skip qtmultimedia -skip qtnetworkauth -skip qtopcua -skip qtpositioning -skip qtquick3d -skip qtquick3dphysics -skip qtquickeffectmaker -skip qtquicktimeline -skip qtremoteobjects -skip qtscxml -skip qtsensors -skip qtserialbus -skip qtserialport -skip qtshadertools -skip qtspeech -skip qttranslations -skip qtvirtualkeyboard -skip qtwebchannel -skip qtwebengine -skip qtwebsockets -skip qtwebview -skip qtwayland -skip qtmacextras -skip qtx11extras 2>&1"
 if (-not $?) {
      Fatal-Error "Failed to configure qt"
 }
 
 Write-Output "Running jom"
-cmd /c "`"$PSScriptRoot/jom/jom.exe`" -J $BUILD_THREADS 2>&1"
+cmd /c "cmake --build . --parallel"
 if (-not $?) {
     Fatal-Error "Qt compilation failed"
 }
-cmd /c "`"$PSScriptRoot/jom/jom.exe`" install 2>&1"
+cmd /c "cmake --install ."
 if (-not $?) {
     Fatal-Error "Qt file installation failed"
 }

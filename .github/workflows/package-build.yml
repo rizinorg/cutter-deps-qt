@@ -24,15 +24,13 @@ jobs:
         ]
         include:
           - name: linux-x86_64
-            os: ubuntu-latest
-            container:
-              image: ubuntu:18.04
+            os: ubuntu-20.04
             arch: x86_64
           - name: macos-x86_64
-            os: macos-11
+            os: macos-12
             arch: x86_64
           - name: macos-arm64
-            os: macos-11
+            os: macos-14
             arch: arm64
           - name: windows-x86_64
             os: windows-2019
@@ -51,13 +49,25 @@ jobs:
       if: contains(matrix.os, 'macos')
       run: |
         xcode-select --print-path
-        make ARCH=${{ matrix.arch }}
+        make ARCH=${{ matrix.arch }} BUILD_THREADS=1
         echo UPLOAD_FILE=cutter-deps-qt-macos-${{ matrix.arch }}.tar.gz >> $GITHUB_ENV
         echo UPLOAD_ASSET_TYPE=application/gzip >> $GITHUB_ENV
-    - name: build linux
+    - name: build linux outputs
       if: contains(matrix.os, 'ubuntu')
       run: |
-        sudo apt-get install libxcb1-dev libxkbcommon-dev libxkbcommon-x11-dev libgtk-3-dev libgl1-mesa-dev libglu1-mesa-dev libxcb-*-dev
+        sudo apt-get update
+        sudo apt-get install \
+          libxcb1-dev \
+          libxkbcommon-dev \
+          libxkbcommon-x11-dev \
+          libgtk-3-dev \
+          libgl1-mesa-dev \
+          libglu1-mesa-dev \
+          libxcb-*-dev \
+          libclang-12-dev \
+          llvm-12
+        apt list --installed
+        sudo apt remove llvm-10 clang-10
         make ARCH=${{ matrix.arch }}
         echo UPLOAD_FILE=cutter-deps-qt-linux-${{ matrix.arch }}.tar.gz >> $GITHUB_ENV
         echo UPLOAD_ASSET_TYPE=application/gzip >> $GITHUB_ENV
