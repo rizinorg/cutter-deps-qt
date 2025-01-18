@@ -21,18 +21,17 @@ jobs:
         include:
           - name: linux-x86_64
             os: ubuntu-latest
-            container:
-              image: ubuntu:18.04
             arch: x86_64
       fail-fast: false
     steps:
     - uses: actions/checkout@v2
     - name: build linux
       if: contains(matrix.os, 'ubuntu')
+      uses: ./.github/actions/build_linux
+    - name: build linux outputs
+      if: contains(matrix.os, 'ubuntu')
       run: |
-        sudo apt-get install libxcb1-dev libxkbcommon-dev libxkbcommon-x11-dev libgtk-3-dev libgl1-mesa-dev libglu1-mesa-dev libxcb-*-dev
-        make ARCH=${{ matrix.arch }}
-        echo UPLOAD_FILE=cutter-deps-qt-linux-${{ matrix.arch }}.tar.gz >> $GITHUB_ENV
+        echo UPLOAD_FILE=cutter-deps-qt5-linux-${{ matrix.arch }}.tar.gz >> $GITHUB_ENV
         echo UPLOAD_ASSET_TYPE=application/gzip >> $GITHUB_ENV
     - uses: actions/upload-artifact@v4
       if: startsWith(github.event.ref, 'refs/tags') == false

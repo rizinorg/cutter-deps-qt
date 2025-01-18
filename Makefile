@@ -34,7 +34,7 @@ QT_SRC_MD5=0fbcde36556a366df8ecf24a7ea1f7ec
 QT_SRC_URL=${BASE_URL}/official_releases/qt/5.15/5.15.5/single/qt-everywhere-opensource-src-5.15.5.tar.xz
 endif
 
-QT_SRC_DIR=qt-everywhere-src-5.15.5
+QT_SRC_DIR=qt-src-git
 QT_BUILD_DIR=${QT_SRC_DIR}/build
 QT_PREFIX=${ROOT_DIR}/qt
 
@@ -57,7 +57,7 @@ endif
 
 BUILD_THREADS:=4
 
-PACKAGE_FILE=cutter-deps-qt-${PLATFORM}-${ARCH}.tar.gz
+PACKAGE_FILE=cutter-deps-qt5-${PLATFORM}-${ARCH}.tar.gz
 
 all: qt pkg
 
@@ -153,11 +153,11 @@ ${QT_SRC_DIR}:
 	@echo "# Downloading Qt Source #"
 	@echo "#########################"
 	@echo ""
-	$(call download_extract,${QT_SRC_URL},${QT_SRC_FILE},${QT_SRC_MD5})
+	#$(call download_extract,${QT_SRC_URL},${QT_SRC_FILE},${QT_SRC_MD5})
 	# Add patches here if required
-	patch ${QT_SRC_DIR}/qtbase/src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.h qiosurfacegraphicsbuffer.h.patch
-	# https://github.com/macports/macports-ports/blob/d2a7c094acba41c84dbe792480f6a1b32371d5e7/aqua/qt5/Portfile#L1057-L1059
-	cd ${QT_SRC_DIR}/qtbase && patch -p0 < ../../patch-qmake-dont-hard-code-x86_64-as-the-architecture-when-using-qmake.diff
+	# Examples
+	#patch ${QT_SRC_DIR}/srcfile.h patch_name.patch
+	#cd ${QT_SRC_DIR}/qtbase && patch -p0 < ../../patch-qmake-dont-hard-code-x86_64-as-the-architecture-when-using-qmake.diff
 
 .PHONY: src
 src: ${QT_SRC_DIR}
