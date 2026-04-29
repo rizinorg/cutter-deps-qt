@@ -24,20 +24,20 @@ jobs:
         ]
         include:
           - name: linux-x86_64
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             arch: x86_64
           - name: macos-x86_64
-            os: macos-12
+            os: macos-14
             arch: x86_64
           - name: macos-arm64
             os: macos-14
             arch: arm64
           - name: windows-x86_64
-            os: windows-2019
+            os: windows-2022
             arch: x86_64
       fail-fast: false
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
     - name: build windows
       if: contains(matrix.os, 'windows')
       shell: powershell
@@ -64,14 +64,16 @@ jobs:
           libgl1-mesa-dev \
           libglu1-mesa-dev \
           libxcb-*-dev \
-          libclang-12-dev \
-          llvm-12
+          curl
+
+        curl -O https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 20
         apt list --installed
-        sudo apt remove llvm-10 clang-10
         make ARCH=${{ matrix.arch }}
         echo UPLOAD_FILE=cutter-deps-qt-linux-${{ matrix.arch }}.tar.gz >> $GITHUB_ENV
         echo UPLOAD_ASSET_TYPE=application/gzip >> $GITHUB_ENV
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       if: startsWith(github.event.ref, 'refs/tags') == false
       with:
         name: ${{ env.UPLOAD_FILE }}

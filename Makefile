@@ -24,15 +24,15 @@ endif
 #BASE_URL=http://www.mirrorservice.org/sites/download.qt-project.org
 BASE_URL=https://download.qt.io
 
-QT_VER_FULL=6.7.2
-QT_VER_SHORT=6.7
+QT_VER_FULL=6.11.0
+QT_VER_SHORT=6.11
 ifeq (${PLATFORM},win)
 QT_SRC_FILE=qt-everywhere-src-${QT_VER_FULL}.zip
-QT_SRC_MD5=69c87bb306ab78b988fb69819c32f3de
+QT_SRC_MD5=a0c1765cfd135eed64a3c0535cf27318
 QT_SRC_URL=${BASE_URL}/official_releases/qt/${QT_VER_SHORT}/${QT_VER_FULL}/single/${QT_SRC_FILE}
 else
 QT_SRC_FILE=qt-everywhere-src-${QT_VER_FULL}.tar.xz
-QT_SRC_MD5=06d35b47349c7c0a45710daad359e07b
+QT_SRC_MD5=a93e9f424a9d11ee8d67bf8fb1af4772
 QT_SRC_URL=${BASE_URL}/official_releases/qt/${QT_VER_SHORT}/${QT_VER_FULL}/single/${QT_SRC_FILE}
 endif
 
@@ -76,44 +76,29 @@ else
   endef
 endif
 
+SKIP_MODULES := qtwebengine qt3d qtcanvas3d qtcharts qtconnectivity qtdeclarative \
+                qtdoc qtscript qtdatavis3d qtgamepad qtlocation qtgraphicaleffects \
+                qtmultimedia qtpurchasing qtscxml qtsensors qtserialbus qtserialport \
+                qtspeech qttranslations qtvirtualkeyboard qtwebglplugin qtwebsockets \
+                qtwebview qtmacextras qtwayland qtquickcontrols qtquickcontrols2 \
+                qtx11extras qtandroidextras qtwebchannel qtquick3d qtgraphs qtlottie \
+                qtactiveqt qtcoap qtgrpc qthttpserver qtlanguageserver qtnetworkauth \
+                qtopcua qtpositioning qtquick3dphysics qtquickeffectmaker \
+                qtremoteobjects qtmqtt qtshadertools qtcanvaspainter qtquicktimeline
+
+QT_CONFIGURE_SKIPS := $(addprefix -skip , $(SKIP_MODULES))
+
 ifeq (${PLATFORM},win)
+  7Z_EXCLUDES := $(addprefix -x!${QT_SRC_DIR}/, $(SKIP_MODULES))
+
   define extract
-	7z x "$1" -bsp1 \
-		-x'!'${QT_SRC_DIR}/qtwebengine \
-		-x'!'${QT_SRC_DIR}/qt3d \
-		-x'!'${QT_SRC_DIR}/qtcanvas3d \
-		-x'!'${QT_SRC_DIR}/qtcharts \
-		-x'!'${QT_SRC_DIR}/qtconnectivity \
-		-x'!'${QT_SRC_DIR}/qtdeclarative \
-		-x'!'${QT_SRC_DIR}/qtdoc \
-		-x'!'${QT_SRC_DIR}/qtscript \
-		-x'!'${QT_SRC_DIR}/qtdatavis3d \
-		-x'!'${QT_SRC_DIR}/qtgamepad \
-		-x'!'${QT_SRC_DIR}/qtlocation \
-		-x'!'${QT_SRC_DIR}/qtgraphicaleffects \
-		-x'!'${QT_SRC_DIR}/qtmultimedia \
-		-x'!'${QT_SRC_DIR}/qtpurchasing \
-		-x'!'${QT_SRC_DIR}/qtscxml \
-		-x'!'${QT_SRC_DIR}/qtsensors \
-		-x'!'${QT_SRC_DIR}/qtserialbus \
-		-x'!'${QT_SRC_DIR}/qtserialport \
-		-x'!'${QT_SRC_DIR}/qtspeech \
-		-x'!'${QT_SRC_DIR}/qttranslations \
-		-x'!'${QT_SRC_DIR}/qtvirtualkeyboard \
-		-x'!'${QT_SRC_DIR}/qtwebglplugin \
-		-x'!'${QT_SRC_DIR}/qtwebsockets \
-		-x'!'${QT_SRC_DIR}/qtwebview \
-		-x'!'${QT_SRC_DIR}/qtmacextras \
-		-x'!'${QT_SRC_DIR}/qtwayland \
-		-x'!'${QT_SRC_DIR}/qtquickcontrols \
-		-x'!'${QT_SRC_DIR}/qtquickcontrols2 \
-		-x'!'${QT_SRC_DIR}/qtx11extras \
-		-x'!'${QT_SRC_DIR}/qtandroidextras \
-		-x'!'${QT_SRC_DIR}/qtwebchannel
+	7z x "$1" -bsp1 $(7Z_EXCLUDES)
   endef
 else
+  TAR_EXCLUDES := $(addprefix --exclude=, $(SKIP_MODULES))
+
   define extract
-	tar -xf "$1"
+	tar -xf "$1" $(TAR_EXCLUDES)
   endef
 endif
 
@@ -150,7 +135,6 @@ qt: ${QT_SRC_DIR} ${PLATFORM_QT_DEPS}
 	@echo "# Building Qt           #"
 	@echo "#########################"
 	@echo ""
-
 	# -nomake tools 
 	mkdir -p "${QT_BUILD_DIR}"
 	cd "${QT_BUILD_DIR}" && \
@@ -173,42 +157,7 @@ qt: ${QT_SRC_DIR} ${PLATFORM_QT_DEPS}
 			-no-feature-designer \
 			-nomake tests \
 			-nomake examples \
-			-skip qt3d \
-			-skip qtactiveqt \
-			-skip qtcharts \
-			-skip qtcoap \
-			-skip qtconnectivity \
-			-skip qtdatavis3d \
-			-skip qtdeclarative \
-			-skip qtdoc \
-			-skip qtgraphs \
-			-skip qtgrpc \
-			-skip qthttpserver \
-			-skip qtlanguageserver \
-			-skip qtlocation \
-			-skip qtlottie \
-			-skip qtmqtt \
-			-skip qtmultimedia \
-			-skip qtnetworkauth \
-			-skip qtopcua \
-			-skip qtpositioning \
-			-skip qtquick3d \
-			-skip qtquick3dphysics \
-			-skip qtquickeffectmaker \
-			-skip qtquicktimeline \
-			-skip qtremoteobjects \
-			-skip qtscxml \
-			-skip qtsensors \
-			-skip qtserialbus \
-			-skip qtserialport \
-			-skip qtshadertools \
-			-skip qtspeech \
-			-skip qttranslations \
-			-skip qtvirtualkeyboard \
-			-skip qtwebchannel \
-			-skip qtwebengine \
-			-skip qtwebsockets \
-			-skip qtwebview \
+			$(QT_CONFIGURE_SKIPS) \
 			-DCMAKE_WrapClang_FOUND=false \
 			${PLATFORM_QT_OPTIONS}
 

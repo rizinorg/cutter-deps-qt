@@ -68,12 +68,12 @@ function DownloadAndCheckFile() {
 
 SetupVsEnv
 
-$version_base = "6.7"
-$version_full = "6.7.2"
-#$url = "https://download.qt.io/official_releases/qt/$version_base/$version_full/single/qt-everywhere-src-$version_full.zip"
-$url = "http://master.qt.io/archive/qt/$version_base/$version_full/single/qt-everywhere-src-$version_full.zip"
+$version_base = "6.11"
+$version_full = "6.11.0"
+$url = "https://download.qt.io/official_releases/qt/$version_base/$version_full/single/qt-everywhere-src-$version_full.zip"
+#$url = "http://master.qt.io/archive/qt/$version_base/$version_full/single/qt-everywhere-src-$version_full.zip"
 $output = "qt-everywhere-src-$version_full.zip"
-$hash_expected = "e71c1f1b453b2b5a34173307d2ba9d35d3383e9727fbc34dc7eef189f351bca5"
+$hash_expected = "0c8f99a4727a63262d5241201b84c883ab61617bdc5c431820073f2ebcd75ad5"
 $QT_SRC_DIR = "qt-everywhere-src-$version_full"
 $qt_build_dir = "$QT_SRC_DIR/build"
 $QT_PREFIX = "$PSScriptRoot/qt"
@@ -105,6 +105,7 @@ Write-Output "Extracting"
     -x'!'${QT_SRC_DIR}/qtserialbus `
     -x'!'${QT_SRC_DIR}/qtserialport `
     -x'!'${QT_SRC_DIR}/qtspeech `
+    -x'!'${QT_SRC_DIR}/qttranslations `
     -x'!'${QT_SRC_DIR}/qtvirtualkeyboard `
     -x'!'${QT_SRC_DIR}/qtwebglplugin `
     -x'!'${QT_SRC_DIR}/qtwebsockets `
@@ -115,7 +116,27 @@ Write-Output "Extracting"
     -x'!'${QT_SRC_DIR}/qtquickcontrols2 `
     -x'!'${QT_SRC_DIR}/qtx11extras `
     -x'!'${QT_SRC_DIR}/qtandroidextras `
-    -x'!'${QT_SRC_DIR}/qtwebchannel
+    -x'!'${QT_SRC_DIR}/qtwebchannel `
+    -x'!'${QT_SRC_DIR}/qtquick3d `
+    -x'!'${QT_SRC_DIR}/qtgraphs `
+    -x'!'${QT_SRC_DIR}/qtlottie `
+    -x'!'${QT_SRC_DIR}/qtactiveqt `
+    -x'!'${QT_SRC_DIR}/qtcoap `
+    -x'!'${QT_SRC_DIR}/qtgrpc `
+    -x'!'${QT_SRC_DIR}/qthttpserver `
+    -x'!'${QT_SRC_DIR}/qtlanguageserver `
+    -x'!'${QT_SRC_DIR}/qtnetworkauth `
+    -x'!'${QT_SRC_DIR}/qtopcua `
+    -x'!'${QT_SRC_DIR}/qtpositioning `
+    -x'!'${QT_SRC_DIR}/qtquick3dphysics `
+    -x'!'${QT_SRC_DIR}/qtquickeffectmaker `
+    -x'!'${QT_SRC_DIR}/qtremoteobjects `
+    -x'!'${QT_SRC_DIR}/qtmqtt `
+    -x'!'${QT_SRC_DIR}/qtmultimedia `
+    -x'!'${QT_SRC_DIR}/qtshadertools `
+    -x'!'${QT_SRC_DIR}/qtdeclarative `
+    -x'!'${QT_SRC_DIR}/qtcanvaspainter `
+    -x'!'${QT_SRC_DIR}/qtquicktimeline
 if (-not $?) {
     Fatal-Error "Failed to extract source"
 }
@@ -126,7 +147,7 @@ Write-Output "build dir '$qt_build_dir'"
 Set-Location -Path $qt_build_dir
 Write-Output "Current dir"
 Get-Location
-cmd /c "..\configure.bat -prefix `"${QT_PREFIX}`" -opensource -confirm-license -release -qt-libpng -qt-libjpeg -no-feature-cups -no-feature-icu -no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-psql -no-sql-sqlite -no-feature-assistant -no-feature-clang -no-feature-designer -nomake tests -nomake examples -skip qt3d -skip qtactiveqt -skip qtcharts -skip qtcoap -skip qtconnectivity -skip qtdatavis3d -skip qtdeclarative -skip qtdoc -skip qtgrpc -skip qtgraphs -skip qthttpserver -skip qtlanguageserver -skip qtlocation -skip qtlottie -skip qtmqtt -skip qtmultimedia -skip qtnetworkauth -skip qtopcua -skip qtpositioning -skip qtquick3d -skip qtquick3dphysics -skip qtquickeffectmaker -skip qtquicktimeline -skip qtremoteobjects -skip qtscxml -skip qtsensors -skip qtserialbus -skip qtserialport -skip qtshadertools -skip qtspeech -skip qttranslations -skip qtvirtualkeyboard -skip qtwebchannel -skip qtwebengine -skip qtwebsockets -skip qtwebview -skip qtwayland -skip qtmacextras -skip qtx11extras 2>&1"
+cmd /c "..\configure.bat -prefix `"${QT_PREFIX}`" -opensource -confirm-license -release -qt-libpng -qt-libjpeg -no-feature-cups -no-feature-icu -no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-psql -no-sql-sqlite -no-feature-assistant -no-feature-clang -no-feature-designer -nomake tests -nomake examples -skip qt3d -skip qtactiveqt -skip qtcharts -skip qtcoap -skip qtconnectivity -skip qtdatavis3d -skip qtdeclarative -skip qtdoc -skip qtgrpc -skip qtgraphs -skip qthttpserver -skip qtlanguageserver -skip qtlocation -skip qtlottie -skip qtmqtt -skip qtmultimedia -skip qtnetworkauth -skip qtopcua -skip qtpositioning -skip qtquick3d -skip qtquick3dphysics -skip qtquickeffectmaker -skip qtquicktimeline -skip qtremoteobjects -skip qtscxml -skip qtsensors -skip qtserialbus -skip qtserialport -skip qtshadertools -skip qtspeech -skip qttranslations -skip qtvirtualkeyboard -skip qtwebchannel -skip qtwebengine -skip qtwebsockets -skip qtwebview -skip qtwayland -skip qtmacextras -skip qtx11extras -skip	qtquick3d -skip	qtgraphs -skip qtlottie -skip	qtactiveqt -skip qtcoap -skip	qtgrpc -skip qthttpserver -skip	qtlanguageserver -skip qtnetworkauth -skip qtopcua -skip	qtpositioning -skip	qtquick3dphysics -skip qtquickeffectmaker -skip	qtremoteobjects -skip	qtmqtt -skip qtmultimedia -skip	qtshadertools -skip	qtcanvaspainter -skip	qtquicktimeline 2>&1"
 if (-not $?) {
      Fatal-Error "Failed to configure qt"
 }
